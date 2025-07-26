@@ -1,0 +1,47 @@
+# Python
+backend/.env
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+env/
+venv/
+ENV/
+.pytest_cache/
+*.log
+*.pot
+*.mo
+*.po
+MANIFEST
+.DS_Store
+*.swp
+*.swo
+
+# PyInstaller
+/backend/dist/
+/backend/build/
+/backend/*.spec
+
+# Node.js / React / Electron
+/client/node_modules/
+/client/dist/
+/client/.DS_Store
+/client/npm-debug.log*
+/client/yarn-debug.log*
+/client/yarn-error.log*
+/client/.env.local
+/client/.env.development.local
+/client/.env.test.local
+/client/.env.production.local
+
+# IDE / OS
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+Thumbs.db
