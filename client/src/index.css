@@ -1,0 +1,749 @@
+/* 0. Тема: CSS-переменные */
+html, body {
+    border: none;
+    outline: none;
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+}
+
+*, ::before, ::after {
+    border: 0;
+    border-style: none;
+    border-color: transparent;
+}
+
+
+:root {
+    --space-gray: #1a1a2e;
+    --deep-space: #0f0f1a;
+    --neon-blue: #00f0ff;
+    --neon-magenta: #ff00f0;
+    --neon-cyan: #00ffcc;
+    --glass-dark: rgba(30, 30, 50, 0.97);
+    --glass-light: rgba(255, 255, 255, 0.1);
+
+    /* стандартные серые для текста/границ */
+    --gray-100: #f7fafc;
+    --gray-300: #d1d5db;
+    --gray-400: #cbd5e0;
+    --gray-700: #4a5568;
+    --gray-800: #2d3748;
+}
+
+/* 1. Глобальные стили */
+.bg-deep-space {
+    background-color: var(--deep-space);
+}
+
+.text-gray-100 {
+    color: var(--gray-100);
+}
+
+.min-h-screen {
+    min-height: 100vh;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+/* 2. Header (шапка) */
+.bg-space-gray {
+    background-color: var(--space-gray);
+}
+
+.border-b {
+    border-bottom-width: 1px;
+    border-style: solid;
+}
+
+.border-gray-800 {
+    border-color: var(--gray-800);
+}
+
+.glass-effect {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.py-3 {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.header {
+    height: 62px;
+    padding: 0 1rem; /* по горизонтали пусть остаются 16px */
+    display: flex;
+    align-items: center;
+}
+
+.w-10 {
+    width: 2.5rem;
+}
+
+.h-10 {
+    height: 2.5rem;
+}
+
+.rounded-full {
+    border-radius: 9999px;
+}
+
+.bg-gradient-to-br {
+    background-image: linear-gradient(to bottom right, var(--neon-blue), var(--neon-cyan));
+}
+
+.shadow-neon-blue {
+    box-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff40;
+}
+
+.text-2xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
+}
+
+.font-bold {
+    font-weight: 700;
+}
+
+.bg-clip-text {
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+.text-transparent {
+    color: transparent;
+}
+
+.bg-gradient-to-r {
+    background-image: linear-gradient(to right, var(--neon-blue), var(--neon-cyan));
+}
+
+.neon-text-blue {
+    text-shadow: 0 0 5px #00f0ff, 0 0 10px #00f0ff80;
+}
+
+.p-2 {
+    padding: 0.5rem;
+}
+
+/* 3. Область чата */
+.flex-1 {
+    flex: 1 1 0%;
+}
+
+.px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.py-6 {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
+.overflow-y-auto {
+    overflow-y: auto;
+}
+
+.mb-4 {
+    margin-bottom: 1rem;
+}
+
+.space-y-6 > * + * {
+    margin-top: 1.5rem;
+}
+
+/* Кастомный скроллбар */
+.custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+/* Анимация появления сообщений */
+@keyframes messageEnter {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message-enter {
+    animation: messageEnter 0.3s ease-out forwards;
+}
+
+/* Ограничение ширины сообщений */
+.max-w-3xl {
+    max-width: 48rem;
+}
+
+.w-full {
+    width: 100%;
+}
+
+@media (min-width: 1024px) {
+    .lg\:w-3\/4 {
+        width: 75%;
+    }
+}
+
+/* 4. Сообщения AI */
+.space-x-3 > * + * {
+    margin-left: 0.75rem;
+}
+
+.flex-shrink-0 {
+    flex-shrink: 0;
+}
+
+.w-8 {
+    width: 2rem;
+}
+
+.h-8 {
+    height: 2rem;
+}
+
+.bg-glass-dark {
+    background-color: var(--glass-dark);
+}
+
+.border {
+    border-width: 1px;
+    border-style: solid;
+}
+
+.border-gray-700 {
+    border-color: var(--gray-700);
+}
+
+.rounded-2xl {
+    border-radius: 1rem;
+}
+
+.rounded-tl-none {
+    border-top-left-radius: 0;
+}
+
+.px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.py-3 {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+
+.shadow-neon-cyan-sm {
+    box-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc40;
+}
+
+.text-white {
+    color: white;
+}
+
+.text-xs {
+    font-size: 0.75rem;
+    line-height: 1rem;
+}
+
+.text-gray-400 {
+    color: var(--gray-400);
+}
+
+.mt-1 {
+    margin-top: 0.25rem;
+}
+
+.items-center {
+    align-items: center;
+}
+
+/* Индикатор набора текста */
+.typing-indicator span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #00ffcc;
+    margin: 0 2px;
+    animation: bounce 1.5s infinite ease-in-out;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+/* 5. Сообщения пользователя */
+.justify-end {
+    justify-content: flex-end;
+}
+
+.bg-gradient-to-br {
+    background-image: linear-gradient(to bottom right, var(--neon-blue), var(--neon-magenta));
+}
+
+.rounded-tr-none {
+    border-top-right-radius: 0;
+}
+
+.text-gray-300 {
+    color: var(--gray-300);
+}
+
+.text-right {
+    text-align: right;
+}
+
+/* Общий стиль всех иконок-кнопок */
+.btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem; /* 40px */
+    height: 3rem; /* 40px */
+    border-radius: 50%;
+    background-color: transparent;
+    border: none;
+    transition: box-shadow 0.3s ease,
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+/* легкий стеклянный фон на hover */
+.btn-icon:hover {
+    background-color: var(--glass-light);
+}
+
+/* шестерёнка */
+.btn-icon.settings {
+    color: var(--neon-blue);
+}
+
+.btn-icon.settings:hover {
+    box-shadow: 0 0 10px var(--neon-blue),
+    0 0 20px rgba(0, 255, 255, 0.5);
+}
+
+/* луна */
+.btn-icon.dark-toggle {
+    color: var(--neon-magenta);
+}
+
+.btn-icon.dark-toggle:hover {
+    box-shadow: 0 0 10px var(--neon-magenta),
+    0 0 20px rgba(255, 0, 240, 0.4);
+}
+
+.btn-icon:active {
+    transform: scale(0.95);
+}
+
+/* 6. Изображения и код */
+.rounded-lg {
+    border-radius: 0.5rem;
+}
+
+.max-w-full {
+    max-width: 100%;
+}
+
+.h-auto {
+    height: auto;
+}
+
+.bg-gray-900 {
+    background-color: #111827;
+}
+
+.p-3 {
+    padding: 0.75rem;
+}
+
+.mb-2 {
+    margin-bottom: 0.5rem;
+}
+
+.text-neon-cyan {
+    color: var(--neon-cyan);
+}
+
+.overflow-x-auto {
+    overflow-x: auto;
+}
+
+/* Результат выполнения */
+.bg-gray-800 {
+    background-color: #1f2937;
+}
+
+/* 7. Область ввода */
+.mt-auto {
+    margin-top: auto;
+}
+
+.border-gray-700 {
+    border-color: var(--gray-700);
+}
+
+.rounded-full {
+    border-radius: 9999px;
+}
+
+.p-1 {
+    padding: 0.25rem;
+}
+
+.shadow-lg {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.hover\:bg-glass-light:hover {
+    background-color: var(--glass-light);
+}
+
+.transition-all {
+    transition: all 0.3s ease;
+}
+
+.duration-300 {
+    transition-duration: 300ms;
+}
+
+.glow-on-hover:hover {
+    box-shadow: 0 0 15px currentColor, 0 0 30px currentColor;
+}
+
+.relative {
+    position: relative;
+}
+
+.bg-transparent {
+    background-color: transparent;
+}
+
+.border-0 {
+    border-width: 0;
+}
+
+.focus\:ring-0:focus {
+    box-shadow: none;
+}
+
+.focus\:outline-none:focus {
+    outline: none;
+}
+
+.resize-none {
+    resize: none;
+}
+
+.py-3 {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+
+.px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.max-h-32 {
+    max-height: 8rem;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.inset-0 {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.pointer-events-none {
+    pointer-events: none;
+}
+
+.border-transparent {
+    border-color: transparent;
+}
+
+/* Активная запись голоса */
+.voice-active {
+    animation: pulse-slow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    box-shadow: 0 0 15px #ff00f0, 0 0 30px #ff00f040;
+}
+
+/* Ключевые кадры для pulse-slow - ВАЖНО: используем стандартную анимацию pulse из Tailwind */
+@keyframes pulse {
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+/* Кнопка отправки */
+.hover\:shadow-neon-blue-sm:hover {
+    box-shadow: 0 0 5px #00f0ff, 0 0 10px #00f0ff20;
+}
+
+.disabled\:opacity-50:disabled {
+    opacity: 0.5;
+}
+
+/* 8. Дополнительные анимации */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}
+
+@media (max-width: 640px) {
+    .header-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+.logo-circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--neon-blue);
+    width: 3rem; /* 48px */
+    height: 3rem; /* 48px */
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--neon-blue),
+    0 0 20px rgba(0, 255, 255, 0.5);
+}
+
+.logo-circle-smile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: var(--neon-blue);
+    background-color: var(--neon-blue);
+    width: 2rem; /* 48px */
+    height: 2rem; /* 48px */
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--neon-blue),
+    0 0 20px rgba(0, 255, 255, 0.5);
+}
+
+.logo-icon {
+    font-size: 1.7rem; /* 24px */
+    line-height: 1;
+    color: white;
+    display: block;
+}
+
+.gap-x-4 {
+    display: flex; /* flex всё равно есть у родителя, этот селектор чисто для gap */
+    gap: 1rem; /* 16px между кнопками */
+}
+
+.main-none {
+    border: none;
+    outline: none;
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+}
+
+.logo-circle-smile-off {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2rem; /* 48px */
+    height: 2rem; /* 48px */
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--neon-blue),
+    0 0 20px rgba(0, 255, 255, 0.5);
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* 1) Размер иконки */
+.send-icon {
+  font-size: 1.75rem; /* ~28px, подгоните под свой вкус */
+  line-height: 1;
+}
+
+/* 2) Стили кнопки */
+.send-button {
+  background-image: linear-gradient(
+    to bottom right,
+    var(--neon-blue),
+    var(--neon-cyan)
+  );
+  box-shadow: 0 0 10px var(--neon-blue), 0 0 20px rgba(0, 255, 255, 0.5);
+}
+
+/* 3) Пульсирующий эффект до hover */
+@keyframes pulse-button {
+  0% {
+    box-shadow: 0 0 5px var(--neon-blue), 0 0 10px rgba(0, 255, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 15px var(--neon-blue), 0 0 30px rgba(0, 255, 255, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 5px var(--neon-blue), 0 0 10px rgba(0, 255, 255, 0.3);
+  }
+}
+
+.pulse-effect {
+  animation: pulse-button 2s ease-in-out infinite;
+}
+
+/* при наведении пульсация останавливается, остаётся только hover:shadow-neon-blue-sm */
+.pulse-effect:hover {
+  animation: none;
+}
+
+/* 4) Не сбрасывать яркость, даже когда disabled */
+.send-button:disabled {
+  opacity: 1 !important;
+  cursor: not-allowed;
+  box-shadow: none; /* или слабее, по желанию */
+}
+
+.send-icon {
+  font-size: 1.75rem;      /* ~28px */
+  color: white;            /* гарантируем белый цвет */
+  display: block;
+  pointer-events: none;    /* клики на SVG не мешают кнопке */
+}
+
+/* если вдруг используются стили fill вместо color */
+.send-icon svg {
+  fill: white !important;
+}
+
+/* делаем плейсхолдер белым */
+textarea::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* опционально: плавная подсветка рамки при фокусе */
+/* Обёртка поля ввода */
+.input-wrapper {
+  border: 1px solid var(--gray-700);
+  padding: 0.25rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.input-wrapper.focused,
+.input-wrapper:focus-within {
+  border-color: var(--neon-blue);
+  box-shadow: 0 0 10px var(--neon-blue);
+}
+
+/* Поле ввода: белый текст и плейсхолдер */
+.chat-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  color: white;
+  font-size: 0.875rem; /* ~14px */
+  line-height: 1.2;
+  padding: 0.25rem 0.5rem;
+  max-height: 8rem;
+}
+.chat-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.footer-width {
+    width: 95%;
+    margin-left: 2rem;
+    margin-bottom: 10px;
+}
+
+.footer-width-api {
+    width: 9%;
+}

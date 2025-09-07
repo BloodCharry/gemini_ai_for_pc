@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini AI | Next-Gen Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'space-gray': '#1a1a2e',
+                        'deep-space': '#0f0f1a',
+                        'neon-blue': '#00f0ff',
+                        'neon-magenta': '#ff00f0',
+                        'neon-cyan': '#00ffcc',
+                        'glass-dark': 'rgba(30, 30, 50, 0.5)',
+                        'glass-light': 'rgba(255, 255, 255, 0.1)'
+                    },
+                    boxShadow: {
+                        'neon-blue': '0 0 10px #00f0ff, 0 0 20px #00f0ff40',
+                        'neon-magenta': '0 0 10px #ff00f0, 0 0 20px #ff00f040',
+                        'neon-cyan': '0 0 10px #00ffcc, 0 0 20px #00ffcc40',
+                        'neon-blue-sm': '0 0 5px #00f0ff, 0 0 10px #00f0ff20',
+                        'neon-magenta-sm': '0 0 5px #ff00f0, 0 0 10px #ff00f020'
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'ping-slow': 'ping 3s cubic-bezier(0, 0, 0.2, 1) infinite'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .neon-text-blue {
+            text-shadow: 0 0 5px #00f0ff, 0 0 10px #00f0ff80;
+        }
+
+        .neon-text-magenta {
+            text-shadow: 0 0 5px #ff00f0, 0 0 10px #ff00f080;
+        }
+
+        .typing-indicator span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #00ffcc;
+            margin: 0 2px;
+            animation: bounce 1.5s infinite ease-in-out;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .message-enter {
+            animation: messageEnter 0.3s ease-out forwards;
+        }
+
+        @keyframes messageEnter {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .glow-on-hover:hover {
+            box-shadow: 0 0 15px currentColor, 0 0 30px currentColor;
+        }
+
+        .voice-active {
+            animation: pulse-slow 2s infinite;
+            box-shadow: 0 0 15px #ff00f0, 0 0 30px #ff00f040;
+        }
+
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="bg-deep-space text-gray-100 min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-space-gray border-b border-gray-800 glass-effect">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-neon-blue to-neon-cyan flex items-center justify-center shadow-neon-blue">
+                    <i class="fas fa-robot text-xl text-white"></i>
+                </div>
+                <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-neon-blue to-neon-cyan">
+                    Gemini AI
+                </h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button class="p-2 rounded-full hover:bg-glass-light transition-all duration-300 glow-on-hover text-neon-blue">
+                    <i class="fas fa-cog"></i>
+                </button>
+                <button class="p-2 rounded-full hover:bg-glass-light transition-all duration-300 glow-on-hover text-neon-magenta">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Chat Area -->
+    <main class="flex-1 container mx-auto px-4 py-6 overflow-hidden flex flex-col">
+        <div id="chat-container" class="flex-1 overflow-y-auto mb-4 space-y-6 custom-scrollbar">
+            <!-- AI Welcome Message -->
+            <div class="message-enter flex w-full">
+                <div class="max-w-3xl w-full lg:w-3/4">
+                    <div class="flex items-start space-x-3">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-neon-cyan to-neon-blue flex items-center justify-center shadow-neon-cyan">
+                            <i class="fas fa-robot text-white text-sm"></i>
+                        </div>
+                        <div class="bg-glass-dark border border-gray-700 rounded-2xl rounded-tl-none px-4 py-3 shadow-neon-cyan-sm">
+                            <p class="text-white">Привет! Я Gemini, твой AI асистент. Чем я могу помочь вам сегодня?</p>
+                            <div class="text-xs text-gray-400 mt-1 flex items-center">
+                                <span>Today at 10:42 AM</span>
+                                <i class="fas fa-check ml-2 text-neon-blue"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Message -->
+            <div class="message-enter flex w-full justify-end">
+                <div class="max-w-3xl w-full lg:w-3/4">
+                    <div class="flex items-start justify-end space-x-3">
+                        <div class="bg-gradient-to-br from-neon-blue to-neon-magenta rounded-2xl rounded-tr-none px-4 py-3 shadow-neon-blue-sm">
+                            <p class="text-white">какая погода сегодняy?</p>
+                            <div class="text-xs text-gray-300 mt-1 text-right">
+                                <span>Today at 10:43 AM</span>
+                                <i class="fas fa-check ml-2 text-white"></i>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-neon-blue to-neon-magenta flex items-center justify-center shadow-neon-blue">
+                            <i class="fas fa-user text-white text-sm"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Response -->
+            <div class="message-enter flex w-full">
+                <div class="max-w-3xl w-full lg:w-3/4">
+                    <div class="flex items-start space-x-3">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-neon-cyan to-neon-blue flex items-center justify-center shadow-neon-cyan">
+                            <i class="fas fa-robot text-white text-sm"></i>
+                        </div>
+                        <div class="bg-glass-dark border border-gray-700 rounded-2xl rounded-tl-none px-4 py-3 shadow-neon-cyan-sm">
+                            <p class="text-white">сегодня 22°, облачно без осадков.</p>
+                            <div class="text-xs text-gray-400 mt-1 flex items-center">
+                                <span>Today at 10:43 AM</span>
+                                <i class="fas fa-check ml-2 text-neon-blue"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typing Indicator -->
+            <div id="typing-indicator" class="hidden flex w-full">
+                <div class="max-w-3xl w-full lg:w-3/4">
+                    <div class="flex items-start space-x-3">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-neon-cyan to-neon-blue flex items-center justify-center shadow-neon-cyan">
+                            <i class="fas fa-robot text-white text-sm"></i>
+                        </div>
+                        <div class="bg-glass-dark border border-gray-700 rounded-2xl rounded-tl-none px-4 py-3 w-20">
+                            <div class="typing-indicator flex justify-center">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="mt-auto glass-effect bg-glass-dark border border-gray-700 rounded-full p-1 shadow-lg">
+            <div class="flex items-center">
+                <button id="attach-button" class="p-3 rounded-full hover:bg-glass-light transition-all duration-300 text-neon-blue glow-on-hover">
+                    <i class="fas fa-paperclip"></i>
+                </button>
+                <div class="flex-1 relative">
+                    <textarea id="message-input" class="w-full bg-transparent border-0 focus:ring-0 focus:outline-none resize-none py-3 px-4 max-h-32" rows="1" placeholder="Задайте вопрос..."></textarea>
+                    <div id="input-border" class="absolute inset-0 rounded-full pointer-events-none border border-transparent transition-all duration-300"></div>
+                </div>
+                <button id="voice-button" class="p-3 rounded-full hover:bg-glass-light transition-all duration-300 text-neon-magenta glow-on-hover">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <button id="send-button" class="p-3 rounded-full bg-gradient-to-br from-neon-blue to-neon-cyan text-white shadow-neon-blue hover:shadow-neon-blue-sm transition-all duration-300">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const messageInput = document.getElementById('message-input');
+            const inputBorder = document.getElementById('input-border');
+            const voiceButton = document.getElementById('voice-button');
+            const chatContainer = document.getElementById('chat-container');
+            const typingIndicator = document.getElementById('typing-indicator');
+
+            // Focus effect for input
+            messageInput.addEventListener('focus', function() {
+                inputBorder.classList.add('border-neon-blue');
+                inputBorder.classList.add('shadow-neon-blue-sm');
+            });
+
+            messageInput.addEventListener('blur', function() {
+                inputBorder.classList.remove('border-neon-blue');
+                inputBorder.classList.remove('shadow-neon-blue-sm');
+            });
+
+            // Auto-resize textarea
+            messageInput.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+
+            // Voice button effect
+            voiceButton.addEventListener('mousedown', function() {
+                this.classList.add('voice-active');
+            });
+
+            voiceButton.addEventListener('mouseup', function() {
+                this.classList.remove('voice-active');
+            });
+
+            voiceButton.addEventListener('mouseleave', function() {
+                this.classList.remove('voice-active');
+            });
+
+            // Simulate sending a message
+            document.getElementById('send-button').addEventListener('click', function() {
+                const message = messageInput.value.trim();
+                if (message) {
+                    // Add user message
+                    addMessage(message, 'user');
+                    messageInput.value = '';
+                    messageInput.style.height = 'auto';
+
+                    // Show typing indicator
+                    typingIndicator.classList.remove('hidden');
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+
+                    // Simulate AI response after delay
+                    setTimeout(() => {
+                        typingIndicator.classList.add('hidden');
+                        addMessage(getAIResponse(message), 'ai');
+                    }, 1500 + Math.random() * 2000);
+                }
+            });
+
+            // Allow Enter key to send message (Shift+Enter for new line)
+            messageInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    document.getElementById('send-button').click();
+                }
+            });
+
+            function addMessage(text, sender) {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message-enter flex w-full ${sender === 'user' ? 'justify-end' : ''}`;
+
+                messageDiv.innerHTML = `
+                    <div class="max-w-3xl w-full lg:w-3/4">
+                        <div class="flex items-start ${sender === 'user' ? 'justify-end' : ''} space-x-3">
+                            ${sender === 'ai' ? `
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-neon-cyan to-neon-blue flex items-center justify-center shadow-neon-cyan">
+                                    <i class="fas fa-robot text-white text-sm"></i>
+                                </div>
+                                <div class="bg-glass-dark border border-gray-700 rounded-2xl rounded-tl-none px-4 py-3 shadow-neon-cyan-sm">
+                                    <p class="text-white">${text}</p>
+                                    <div class="text-xs text-gray-400 mt-1 flex items-center">
+                                        <span>${timeString}</span>
+                                        <i class="fas fa-check ml-2 text-neon-blue"></i>
+                                    </div>
+                                </div>
+                            ` : `
+                                <div class="bg-gradient-to-br from-neon-blue to-neon-magenta rounded-2xl rounded-tr-none px-4 py-3 shadow-neon-blue-sm">
+                                    <p class="text-white">${text}</p>
+                                    <div class="text-xs text-gray-300 mt-1 text-right">
+                                        <span>${timeString}</span>
+                                        <i class="fas fa-check ml-2 text-white"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-neon-blue to-neon-magenta flex items-center justify-center shadow-neon-blue">
+                                    <i class="fas fa-user text-white text-sm"></i>
+                                </div>
+                            `}
+                        </div>
+                    </div>
+                `;
+
+                chatContainer.appendChild(messageDiv);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+
+            function getAIResponse(userMessage) {
+                // Simple response logic - in a real app, this would call an API
+                const responses = [
+                    "I've analyzed your request and here's what I found...",
+                    "That's an interesting question! Based on my knowledge...",
+                    "I can certainly help with that. Here's the information you need:",
+                    "Great question! The answer involves several factors...",
+                    "I understand you're asking about this topic. Here's what I know:"
+                ];
+
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                return randomResponse + " " + userMessage.split('').reverse().join('').substring(0, 20) + "...";
+            }
+        });
+    </script>
+</body>
+</html>

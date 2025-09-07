@@ -1,8 +1,11 @@
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
+
 from dotenv import load_dotenv
 import os
+
 from google import genai
+
 from google.genai.types import (
     GenerationConfig,
     HttpOptions,
@@ -12,6 +15,7 @@ from google.genai.types import (
     GenerateContentConfig,
     Modality
 )
+
 import base64
 import tempfile
 import speech_recognition as sr
@@ -21,9 +25,9 @@ import uuid
 from PIL import Image
 import requests
 from io import BytesIO
+import uvicorn
 
 load_dotenv()
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 app = FastAPI()
 
@@ -36,13 +40,18 @@ app.add_middleware(
 )
 
 # Глобальные настройки генерации
-GENERATION_CONFIG = GenerationConfig(
+GENERATION_CONFIG = GenerateContentConfig(
     temperature=0.6,
     top_p=0.8,
     top_k=20,
 )
 
 client = genai.Client(http_options=HttpOptions(api_version="v1"))
+
+
+@app.get("/api/health")
+async def health_check():
+    return {"status": "ok"}
 
 
 # генерация текста
@@ -56,7 +65,7 @@ async def text_endpoint(payload: dict):
     response = client.models.generate_content(
         model="gemini-2.5-flash",
         contents=payload["messages"],
-        generation_config=GENERATION_CONFIG
+        config=GENERATION_CONFIG
     )
     return {"text": response.text}
 
@@ -78,12 +87,12 @@ async def vision_endpoint(
         model="gemini-2.5-flash",
         contents=[
             question,
-            Part.from_data(
+            Part(
                 mime_type=file.content_type,
                 data=image_data
             )
         ],
-        generation_config=GENERATION_CONFIG
+        config=GenerateContentConfig(response_modalities=[Modality.IMAGE])
     )
 
     return {"result": response.text}
@@ -101,8 +110,8 @@ async def image_endpoint(payload: dict):
         model="gemini-2.0-flash-preview-image-generation",
         contents=[payload["prompt"]],
         config=GenerateContentConfig(
-            response_modalities=[Modality.IMAGE],
-            generation_config=GENERATION_CONFIG
+            response_modalities=[Modality.TEXT, Modality.IMAGE],
+            config=GENERATION_CONFIG
         )
     )
 
@@ -130,7 +139,7 @@ async def execute_code(payload: dict):
         config=GenerateContentConfig(
             tools=[code_execution_tool],
             temperature=0,
-            generation_config=GENERATION_CONFIG
+            config=GENERATION_CONFIG
         )
     )
 
@@ -214,6 +223,5 @@ if __name__ == "__main__":
     Запускает Uvicorn (ASGI-сервер) на всех интерфейсах (0.0.0.0) и порту 8000.
     В продакшене лучше использовать Gunicorn + Uvicorn или Docker.
     """
-    import uvicorn
 
     uvicorn.run(app, host="0.0.0.0", port=8000)
